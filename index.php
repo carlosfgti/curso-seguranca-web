@@ -5,7 +5,7 @@ if(isset($_SESSION['login'])){
 	header("Location: seguranca.php");
 }
 
-require_once 'config/config.php';
+include_once('config/config.php');
 ?>
 <html>
 <head>
@@ -19,7 +19,7 @@ require_once 'config/config.php';
 <body>
 	<div class="container">
 		<form method="post" action="" class="form-login">
-			<h3>Acessar área restrita</h3>
+			<h3>Acesso restrito</h3>
 			<div class="form-group">
 				<input type="text" name="email" class="form-control" placeholder="Seu e-mail">
 			</div>
@@ -31,7 +31,9 @@ require_once 'config/config.php';
 			</div>
 			<?php
 			if( isset($_REQUEST['entrar']) ){
-				$verifica = mysqli_query($conn, " SELECT * FROM usuarios WHERE email = '{$_REQUEST['email']}' AND senha = '{$_REQUEST['senha']}' ")or die(mysql_error());
+				$email = addslashes($_REQUEST['email']);
+				$senha = addslashes($_REQUEST['senha']);
+				$verifica = mysqli_query($conn, " SELECT * FROM usuarios WHERE email = '{$email}' AND senha = '{$senha}' ")or die(mysql_error());
 
 				if( mysqli_num_rows($verifica) > 0 ){
 					$_SESSION['login'] = $_REQUEST['email'];
@@ -40,7 +42,7 @@ require_once 'config/config.php';
 				else{
 					echo '
 			              <div class="alert alert-error">
-			                Login inválido.
+			                Falha ao logar.
 			              </div>
 			            ';
 				}

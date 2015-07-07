@@ -1,10 +1,4 @@
-		<h2>Usuários</h2>
-		<form method="post" action="">
-			<div class="form-group">
-				<input type="text" name="pesquisa" value="<?php if( isset($_REQUEST['pesquisa']) ) echo $_REQUEST['pesquisa'];?>" class="" placeholder="O que procura?">
-				<input type="submit" name="search" value="Filtrar" class="">
-			</div>
-		</form>
+		<h2>Users</h2>
 		<table class="table">
 			<tr style="background: #33B5E5; color: #FFF;">
 				<th>Nome</th>
@@ -18,9 +12,10 @@
 
 			while( $dados = mysqli_fetch_array($select) )
 			{
+				$nome = htmlspecialchars($dados['nome']);
 				echo "
 				<tr>
-					<td>{$dados['nome']}</td>
+					<td>{$nome}</td>
 					<td align='center'>{$dados['idade']}</td>
 					<td>{$dados['email']}</td>
 				</tr>

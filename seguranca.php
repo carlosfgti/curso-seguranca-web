@@ -2,14 +2,16 @@
 session_start();
 
 if(!isset($_SESSION['login'])){
-	header("Location: login.php");
+	header("Location: index.php");
 }
+
+$_SESSION['_token'] = ( !isset($_SESSION['_token']) ) ? hash('sha512', rand(100, 1000)) : $_SESSION['_token'];
 
 require_once 'config/config.php';
 ?>
 <html>
 <head>
-	<title>Mais um página vunerável</title>
+	<title>Um projeto vuneravel</title>
 	<!--boostrap-->
 	<link href="style/bootstrap.css" rel="stylesheet">
 	<link href="style/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +28,7 @@ require_once 'config/config.php';
                 <span class="icon-bar"></span>
               </button>
               <a class="navbar-brand" href="?pag=home.php">
-              	<img src="" alt="EspecializaTi">
+              	<img src="img/logo.png" alt="EspecializaTi" class='img-logo'>
               </a>
             </div>
         
@@ -52,7 +54,10 @@ require_once 'config/config.php';
 			include 'home.php';
 		}
 		else{
-			include "{$_GET['pag']}";
+			if( file_exists("{$_GET['pag']}") )
+				include "{$_GET['pag']}";
+			else
+				echo 'A pagina nao existe.';
 		}
 		?>
 	</div>
